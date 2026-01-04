@@ -1,0 +1,21 @@
+{
+  "name": "tricox-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run start --workspace=@tricox/api\" \"npm run dev --workspace=@tricox/web -- -p 3001\"",
+    "dev:web": "npm run dev --workspace=@tricox/web",
+    "dev:api": "npm run start:dev --workspace=@tricox/api",
+    "dev:cli": "npm run dev --workspace=@tricox/cli"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "typescript": "^5.0.0"
+  }
+}

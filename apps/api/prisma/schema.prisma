@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  orgs        Organization[]
+  tokens      PersonalAccessToken[]
+  ownedOrgs   Organization[]        @relation("OrgOwner")
+}
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  ownerId   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner      User        @relation("OrgOwner", fields: [ownerId], references: [id])
+  users      User[]
+  components Component[]
+}
+
+model Component {
+  id          String   @id @default(uuid())
+  name        String
+  orgId       String
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  org      Organization @relation(fields: [orgId], references: [id])
+  versions Version[]
+  downloads Int      @default(0)
+
+  @@unique([orgId, name])
+}
+
+model Version {
+  id          String   @id @default(uuid())
+  componentId String
+  version     String
+  s3Key       String?   // Path to source file in storage
+  metadata    String?    // Stores framework, deps, etc.
+  createdAt   DateTime @default(now())
+
+  component Component @relation(fields: [componentId], references: [id])
+
+  @@unique([componentId, version])
+}
+
+model PersonalAccessToken {
+  id        String   @id @default(uuid())
+  name      String?
+  token     String?  // Raw token for display (requested by user)
+  tokenHash String   @unique // Hashed version for auth
+  userId    String
+  lastUsed  DateTime?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
