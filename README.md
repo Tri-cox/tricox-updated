@@ -86,20 +86,11 @@ Create the following files in their respective directories:
 ### Backend (`apps/api/.env`)
 ```env
 DATABASE_URL="file:./dev.db"
-PORT=3000
 
 # GitHub OAuth
 GITHUB_CLIENT_ID="your_client_id"
 GITHUB_CLIENT_SECRET="your_client_secret"
 ```
-
-### Frontend (`apps/web/.env.local`)
-```env
-NEXT_PUBLIC_API_URL="http://localhost:3000"
-NEXT_PUBLIC_GITHUB_CLIENT_ID="your_client_id"
-```
-
----
 
 ## 🌐 6. GitHub OAuth Setup
 
