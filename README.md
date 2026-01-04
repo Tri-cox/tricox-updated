@@ -91,7 +91,7 @@ DATABASE_URL="file:./dev.db"
 GITHUB_CLIENT_ID="your_client_id"
 GITHUB_CLIENT_SECRET="your_client_secret"
 ```
-
+---
 ## 🌐 6. GitHub OAuth Setup
 
 To enable "Login with GitHub", configure your OAuth App:
